@@ -211,10 +211,10 @@ a_proc.call('tim', 80)
 puts "\n"
 # ------------------------------------------------------------------------------
 
-#               |     Block     |      Proc                      | Lambda                     |
-# Arguments:    | Does not care | Does not care                  | Strict                     |
-# Returning:    |               | Returns from caller's context  |  Returns from lambda block |
-# Default args: |               | Supported                      | Supported                  | 
+#               |     Block                     |      Proc                      | Lambda                     |
+# Arguments:    | Does not care                 | Does not care                  | Strict                     |
+# Returning:    | Returns from caller's context | Returns from caller's context  |  Returns from lambda block |
+# Default args: | Supported                     | Supported                      | Supported                      | 
 # Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
@@ -281,12 +281,14 @@ puts "\n"
 
 def say_hello_and_bye
   puts 'hello'
+  yield(5) if block_given?
   yield if block_given?
   puts 'bye'
 end
 
 say_hello_and_bye
 # say_hello_and_bye { return }
+say_hello_and_bye { |num=19| puts "num is #{num}" }
 
 puts "\n"
 # ------------------------------------------------------------------------------
