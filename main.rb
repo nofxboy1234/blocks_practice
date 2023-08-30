@@ -1,5 +1,3 @@
-# Block, Proc, Lambda
-
 # Blocks
 # ******************************************************************************
 # ------------------------------------------------------------------------------
@@ -209,3 +207,69 @@ a_proc.call
 
 a_proc = Proc.new { |name, age| puts "name: #{name} --- age: #{age}" }
 a_proc.call('tim', 80)
+
+puts "\n"
+# ------------------------------------------------------------------------------
+
+#             |     Block     |      Proc     | Lambda |
+# Arguments:  | Does not care | Does not care | Strict |
+
+# Does not care
+a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
+a_proc.call('apple')
+a_proc.call('cat', 'dog')
+a_proc.call(['cat', 'dog'])
+a_proc.call(*['cat', 'dog'])
+
+nested_array = [[1, 2], [3, 4], [5, 6]]
+p nested_array.select { |a, b| a + b > 10 }
+
+# Strict
+a_lambda = lambda { |a, b| puts "a: #{a} --- b: #{b}" }
+# a_lambda.call('apple')
+# a_lambda.call('apple', 'banana', 'cake')
+a_lambda.call('apple', 'banana')
+# a_lambda.call(['apple', 'banana'])
+a_lambda.call(*['apple', 'banana'])
+
+puts "\n"
+# ------------------------------------------------------------------------------
+# Capturing and Destructuring using Splat * and Double Splat ** operators
+# Capture as Array
+def print_all(*args)
+  p args
+end
+
+print_all(1, 2, 3, 4, 5)
+
+# Capture as Array
+def print_all(title, *chapters)
+  puts "title: #{title}"
+  puts "chapters: #{chapters}"
+end
+
+print_all(1, 2, 3, 4, 5)
+
+def testing(a, b = 1, *c, d: 1, **x)
+  puts "a: #{a}"
+  puts "b: #{b}"
+  puts "c: #{c}"
+  puts "d: #{d}"
+  puts "x: #{x}"
+end
+
+testing('a', 'b', 'c', 'd', 'e', d: 2, x: 1, y: 2)
+
+def foo(a, *b, **c)
+  p [a, b, c]
+end
+
+foo(10)
+foo(10, 20, 30)
+foo(10, 20, 30, d: 40, e: 50)
+foo(10, d: 40, e: 50)
+
+opts = {d: 40, e: 50}
+foo(10, opts, f: 60)
+foo(10, **opts, f: 60)
+# ------------------------------------------------------------------------------
