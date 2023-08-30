@@ -1,4 +1,5 @@
-# Get block return value?
+# Blocks
+# ******************************************************************************
 # ------------------------------------------------------------------------------
 # Single-line block
 [1, 2, 3].each { |num| puts num }
@@ -100,5 +101,98 @@ end
 
 p strings
 
+puts "\n"
+# ------------------------------------------------------------------------------
+@transactions = [10, -15, 25, 30, -24, -70, 999]
+
+def transaction_statement
+  @transactions.each do |transaction|
+    p yield transaction # `p` is called within our method now instead of within the block
+  end
+end
+
+transaction_statement do |transaction|
+  "%0.2f" % transaction
+end
+puts "\n"
+# ------------------------------------------------------------------------------
+def say_something
+  yield
+end
+
+say_something do |word|
+  puts "And then I said: #{word}"
+end
+puts "\n"
+# ------------------------------------------------------------------------------
+def mad_libs
+  yield('cool', 'beans', 'burrito')
+end
+
+mad_libs do |adjective, noun|
+  puts "I said #{adjective} #{noun}!"
+end
+puts "\n"
+# ------------------------------------------------------------------------------
+def awesome_method
+  hash = {a: 'apple', b: 'banana', c: 'cookie'}
+
+  hash.each do |key, value|
+    yield key, value
+  end
+end
+
+awesome_method { |key, value| puts "#{key}: #{value}" }
+puts "\n"
+# ------------------------------------------------------------------------------
+# def simple_method
+#   yield
+# end
+
+# simple_method
+# puts "\n"
+# ------------------------------------------------------------------------------
+def maybe_block
+  if block_given?
+    puts 'block party'
+  end
+
+  puts 'executed regardless'
+end
+
+maybe_block
+puts "\n"
+maybe_block {}
+
+puts "\n"
+# ------------------------------------------------------------------------------
+
+
+# Lambdas
+# ******************************************************************************
+my_lambda = lambda { puts 'my lambda' }
+
+my_other_lambda = -> { puts 'hello from the other side' }
+
+puts "\n"
+# ------------------------------------------------------------------------------
+my_lambda = -> { puts 'high five' }
+my_lambda.call
+puts "\n"
+
+my_name = ->(name) { puts "hello #{name}" }
+my_age = lambda { |age| puts "I am #{age} years old" }
+
+my_name.call('tim')
+my_age.call(78)
+
+puts "\n"
+# ------------------------------------------------------------------------------
+my_name = ->(name) { puts "hello #{name}" }
+
+my_name.call('tim')
+my_name.('tim')
+my_name['tim']
+my_name.=== 'tim'
 puts "\n"
 # ------------------------------------------------------------------------------
