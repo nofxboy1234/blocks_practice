@@ -211,10 +211,11 @@ a_proc.call('tim', 80)
 puts "\n"
 # ------------------------------------------------------------------------------
 
-#             |     Block     |      Proc     | Lambda |
-# Arguments:  | Does not care | Does not care | Strict |
+#             |     Block     |      Proc                      | Lambda                     |
+# Arguments:  | Does not care | Does not care                  | Strict                     |
+# Returning:  |               | Returns from caller's context  |  Returns from lambda block |
 
-# Does not care
+# Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
 a_proc.call('cat', 'dog')
@@ -224,13 +225,45 @@ a_proc.call(*['cat', 'dog'])
 nested_array = [[1, 2], [3, 4], [5, 6]]
 p nested_array.select { |a, b| a + b > 10 }
 
-# Strict
+puts "\n"
+
+# Arguments: Lambda = Strict
 a_lambda = lambda { |a, b| puts "a: #{a} --- b: #{b}" }
 # a_lambda.call('apple')
 # a_lambda.call('apple', 'banana', 'cake')
 a_lambda.call('apple', 'banana')
 # a_lambda.call(['apple', 'banana'])
 a_lambda.call(*['apple', 'banana'])
+
+puts "\n"
+
+# Returning: Lambda = Returns from lambda block (Run in irb)
+# a_lambda = -> { puts 'Returning from lambda'; return 1 }
+# a_lambda.call
+
+def my_method
+  a_lambda = -> { return }
+  puts 'this line will be printed'
+  a_lambda.call
+  puts 'this line IS reached'
+end
+
+my_method
+
+puts "\n"
+
+# Returning: Proc = Returns from caller's context (Run in irb = error)
+# a_proc = Proc.new { return }
+# a_proc.call
+
+def my_method
+  a_proc = Proc.new { return }
+  puts 'this line will be printed'
+  a_proc.call
+  puts 'this line is never reached'
+end
+
+my_method
 
 puts "\n"
 # ------------------------------------------------------------------------------
@@ -272,4 +305,13 @@ foo(10, d: 40, e: 50)
 opts = {d: 40, e: 50}
 foo(10, opts, f: 60)
 foo(10, **opts, f: 60)
+
+puts "\n"
+# ------------------------------------------------------------------------------
+def sum(a, b)
+  a + b
+end
+
+p sum(*[1, 2])
+puts "\n"
 # ------------------------------------------------------------------------------
