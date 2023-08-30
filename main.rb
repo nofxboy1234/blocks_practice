@@ -108,6 +108,7 @@ puts "\n"
 def transaction_statement
   @transactions.each do |transaction|
     p yield transaction # `p` is called within our method now instead of within the block
+    puts 'AFTER printing transaction'
   end
 end
 
@@ -214,7 +215,7 @@ puts "\n"
 #               |     Block                     |      Proc                      | Lambda                     |
 # Arguments:    | Does not care                 | Does not care                  | Strict                     |
 # Returning:    | Returns from caller's context | Returns from caller's context  |  Returns from lambda block |
-# Default args: | Supported                     | Supported                      | Supported                      | 
+# Default args: | Supported                     | Supported                      | Supported                  | 
 # Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
