@@ -65,3 +65,22 @@ transaction_statement(transactions) do |transaction|
 end
 puts "\n"
 # ------------------------------------------------------------------------------
+def transaction_statement(transactions)
+  transaction_strings = []
+  transactions.each do |transaction|
+    string = yield transaction
+    transaction_strings << string
+  end
+  transaction_strings
+end
+
+transactions = [20, -20]
+
+strings = transaction_statement(transactions) do |transaction|
+  "%0.2f" % transaction
+end
+
+p strings
+
+puts "\n"
+# ------------------------------------------------------------------------------
