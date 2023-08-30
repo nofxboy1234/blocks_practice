@@ -211,10 +211,10 @@ a_proc.call('tim', 80)
 puts "\n"
 # ------------------------------------------------------------------------------
 
-#             |     Block     |      Proc                      | Lambda                     |
-# Arguments:  | Does not care | Does not care                  | Strict                     |
-# Returning:  |               | Returns from caller's context  |  Returns from lambda block |
-
+#               |     Block     |      Proc                      | Lambda                     |
+# Arguments:    | Does not care | Does not care                  | Strict                     |
+# Returning:    |               | Returns from caller's context  |  Returns from lambda block |
+# Default args: |               | Supported                      | Supported                  | 
 # Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
@@ -264,6 +264,18 @@ def my_method
 end
 
 my_method
+
+puts "\n"
+
+# Default args: Proc = Supported
+my_proc = Proc.new { |name='bob'| puts name }
+my_proc.call
+
+puts "\n"
+
+# Default args: Proc = Supported
+my_lambda = ->(name='r2d2') { puts name }
+my_lambda.call
 
 puts "\n"
 # ------------------------------------------------------------------------------
