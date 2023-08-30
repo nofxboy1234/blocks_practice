@@ -278,6 +278,17 @@ my_lambda = ->(name='r2d2') { puts name }
 my_lambda.call
 
 puts "\n"
+
+def say_hello_and_bye
+  puts 'hello'
+  yield if block_given?
+  puts 'bye'
+end
+
+say_hello_and_bye
+# say_hello_and_bye { return }
+
+puts "\n"
 # ------------------------------------------------------------------------------
 # Capturing and Destructuring using Splat * and Double Splat ** operators
 # Capture as Array
