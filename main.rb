@@ -422,10 +422,10 @@ end
 
 count = 1
 
-my_proc = proc { puts count }
+my_proc = proc { puts "my_proc count: #{count}" }
 p call_proc(my_proc)
 
-my_lambda = -> { puts count }
+my_lambda = -> { puts "my_lambda count: #{count}" }
 p call_proc(my_lambda)
 
 # Where do Ruby procs & lambdas store this scope information?
@@ -509,3 +509,31 @@ my_lambda = -> { puts 'hello from my_lambda'; return }
 # my_lambda = proc { puts 'hello from my_proc' }
 hello(my_lambda)
 puts 'outside hello'
+
+puts "\n"
+# ------------------------------------------------------------------------------
+my_name = ->(name, surname) { puts "hello #{name} #{surname}" }
+
+my_name.call('tim', 'smith')
+my_name.('tim', 'smith')
+my_name['tim', 'smith']
+my_name.=== 'tim', 'smith'
+puts "\n"
+
+
+b = proc { |x, y, z| (x || 0) + (y || 0) + (z || 0) }
+p b.curry[1][2][3]
+p b.curry[1, 2][3, 4]
+p b.curry[1, 2][3]
+p b.curry(5)[1][2][3][4][5]
+
+puts "\n"
+# ------------------------------------------------------------------------------
+
+# cat = 'whiskey'
+
+# def goodbye
+#   puts cat
+# end
+
+# goodbye
