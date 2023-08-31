@@ -212,10 +212,11 @@ a_proc.call('tim', 80)
 puts "\n"
 # ------------------------------------------------------------------------------
 
-#               |     Block                     |      Proc                      | Lambda                     |
-# Arguments:    | Does not care                 | Does not care                  | Strict                     |
-# Returning:    | Returns from caller's context | Returns from caller's context  |  Returns from lambda block |
-# Default args: | Supported                     | Supported                      | Supported                  | 
+#               |     Block                        |      Proc                     | Lambda                     | Method
+# Arguments:    | Does not care                    | Does not care                 | Strict                     | Strict
+# Returning:    | Returns from definition context? | Returns from enclosing method |  Returns from itself       | Returns from itself
+# Default args: | Supported                        | Supported                     | Supported                  | Supported
+# Method params:| Not Supported                    | Supported                     | Supported                  | Not Supported
 # Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
@@ -244,9 +245,9 @@ puts "\n"
 
 def my_method
   a_lambda = -> { return }
-  puts 'this line will be printed'
+  puts 'this line will be printed**'
   a_lambda.call
-  puts 'this line IS reached'
+  puts 'this line IS reached**'
 end
 
 my_method
@@ -268,15 +269,39 @@ my_method
 
 puts "\n"
 
+def my_method
+  yield
+  puts 'after yielding to block'
+end
+
+# my_method { puts 'in block'; return }
+# my_method { puts 'in block' }
+
+puts "\n"
+
 # Default args: Proc = Supported
 my_proc = Proc.new { |name='bob'| puts name }
 my_proc.call
 
 puts "\n"
 
-# Default args: Proc = Supported
+# Default args: Lambda = Supported
 my_lambda = ->(name='r2d2') { puts name }
 my_lambda.call
+
+puts "\n"
+
+# Method params: Lambda = Supported
+# Method params: Proc = Supported
+def my_method(useful_arg)
+  useful_arg.call
+end
+
+my_lambda = -> { puts 'lambda' }
+my_proc = Proc.new { puts 'proc' }
+
+my_method(my_lambda)
+my_method(my_proc)
 
 puts "\n"
 
@@ -339,5 +364,13 @@ def sum(a, b)
 end
 
 p sum(*[1, 2])
+puts "\n"
+# ------------------------------------------------------------------------------
+def hello(**args)
+  p args
+end
+
+# hello('dylan')
+hello(a: 'dylan')
 puts "\n"
 # ------------------------------------------------------------------------------
