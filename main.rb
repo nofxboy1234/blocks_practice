@@ -307,7 +307,7 @@ puts "\n"
 
 # Capturing a block with & (#to_proc) - Explicit block (Proc) vs Implicit Block
 def cool_method(&my_block)
-  # p my_block.class
+  p my_block.class
   my_block.call
 end
 
@@ -412,3 +412,28 @@ end
 hello(a: 'dylan')
 puts "\n"
 # ------------------------------------------------------------------------------
+# Closures
+def call_proc(my_proc)
+  count = 500
+  my_proc.call
+end
+
+count = 1
+
+my_proc = proc { puts count }
+p call_proc(my_proc)
+
+my_lambda = -> { puts count }
+p call_proc(my_lambda)
+
+# Where do Ruby procs & lambdas store this scope information?
+def return_binding
+  foo = 100
+  binding
+end
+
+p return_binding.class
+p return_binding.eval('foo')
+
+
+# Returning - Place of definition vs Place of call?
