@@ -214,7 +214,7 @@ puts "\n"
 
 #               |     Block                                     |      Proc                                     | Lambda                     | Method
 # Arguments:    | Does not care                                 | Does not care                                 | Strict                     | Strict
-# Returning:    | Returns from Context of Caller and Definition | Returns from Context of Caller and Definition | Returns from itself        | Returns from itself
+# Returning:    | Returns from Context of Caller and Closure    | Returns from Context of Caller and Closure    | Returns from itself        | Returns from itself
 # Default args: | Supported                                     | Supported                                     | Supported                  | Supported
 # Method params:| Not Supported                                 | Supported                                     | Supported                  | Not Supported
 # ------------------------------------------------------------------------------
