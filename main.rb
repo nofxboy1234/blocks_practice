@@ -305,6 +305,31 @@ my_method(my_proc)
 
 puts "\n"
 
+# Capturing a block with & (#to_proc) - Explicit block (Proc) vs Implicit Block
+def cool_method(&my_block)
+  # p my_block.class
+  my_block.call
+end
+
+cool_method { puts 'cool' }
+
+puts "\n"
+# https://stackoverflow.com/questions/14881125/what-does-to-proc-method-mean-in-ruby
+arr = %w[1 2 3]
+p arr.map(&:to_i)
+# &:to_i Uses:
+# a symbol
+# the method Symbol#to_proc
+# implicit class casting - using #to_proc
+# & operator
+p :to_i.to_proc # ->element { element.send(:to_i) }
+# & applied to ->element { element.send(:to_i) } to convert to a block
+p arr.map { |element| element.send(:to_i) }
+
+puts "\n"
+
+
+
 def say_hello_and_bye
   puts 'hello'
   yield(5) if block_given?
