@@ -314,6 +314,7 @@ end
 cool_method { puts 'cool' }
 
 puts "\n"
+
 # https://stackoverflow.com/questions/14881125/what-does-to-proc-method-mean-in-ruby
 arr = %w[1 2 3]
 p arr.map(&:to_i)
@@ -328,6 +329,18 @@ p arr.map { |element| element.send(:to_i) }
 
 puts "\n"
 
+def cool_method
+  yield
+end
+
+my_proc = Proc.new { puts 'proc party' }
+# cool_method(my_proc)
+cool_method(&my_proc)
+
+my_lambda = -> { puts 'lambda party' }
+cool_method(&my_lambda)
+
+puts "\n"
 
 
 def say_hello_and_bye
