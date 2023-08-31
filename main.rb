@@ -537,3 +537,49 @@ puts "\n"
 # end
 
 # goodbye
+
+puts "\n"
+# ------------------------------------------------------------------------------
+# Using lambdas as computed hashes and arrays
+# https://www.honeybadger.io/blog/using-lambdas-in-ruby/
+# https://www.rubydoc.info/gems/faker/Faker/Name
+require 'pry-byebug'
+
+class FakePerson
+  attr_reader :first_name, :last_name
+
+  def initialize(name)
+    @first_name = name[:first_name]
+    @last_name = name[:last_name]
+  end
+end
+
+module Faker
+  class Name
+    def self.first_name
+      # binding.pry
+      ['Dylan', 'Jenny', 'Cat'].sample
+      # {first_name: name}
+    end
+
+    def self.last_name
+      ['Palmboom', 'Smith', 'Dog'].sample
+      # {last_name: name}
+    end
+  end
+end
+
+person1 = FakePerson.new({ first_name: 'John', last_name: 'Doe' })
+p person1.first_name
+p person1.last_name
+
+fuzzer = ->(k) { Faker::Name.send(k) }
+
+# p fuzzer
+# p fuzzer.call(:first_name)
+# p fuzzer.call(:last_name)
+
+# The lambda pretends to be a hash
+person2 = FakePerson.new(fuzzer)
+p person2.first_name
+p person2.last_name
