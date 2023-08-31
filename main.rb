@@ -212,11 +212,13 @@ a_proc.call('tim', 80)
 puts "\n"
 # ------------------------------------------------------------------------------
 
-#               |     Block                        |      Proc                     | Lambda                     | Method
-# Arguments:    | Does not care                    | Does not care                 | Strict                     | Strict
-# Returning:    | Returns from definition context? | Returns from enclosing method |  Returns from itself       | Returns from itself
-# Default args: | Supported                        | Supported                     | Supported                  | Supported
-# Method params:| Not Supported                    | Supported                     | Supported                  | Not Supported
+#               |     Block                                     |      Proc                                     | Lambda                     | Method
+# Arguments:    | Does not care                                 | Does not care                                 | Strict                     | Strict
+# Returning:    | Returns from Context of Caller and Definition | Returns from Context of Caller and Definition | Returns from itself        | Returns from itself
+# Default args: | Supported                                     | Supported                                     | Supported                  | Supported
+# Method params:| Not Supported                                 | Supported                                     | Supported                  | Not Supported
+# ------------------------------------------------------------------------------
+
 # Arguments: Proc = Does not care
 a_proc = Proc.new { |a, b| puts "a: #{a} --- b: #{b}" }
 a_proc.call('apple')
@@ -435,5 +437,75 @@ end
 p return_binding.class
 p return_binding.eval('foo')
 
-
+puts "\n"
+# ------------------------------------------------------------------------------
 # Returning - Place of definition vs Place of call?
+
+def hello
+  my_proc = proc { puts 'hello from my_proc' }
+  my_proc.call
+  puts 'hello'
+end
+
+hello
+puts 'outside hello'
+
+puts "\n"
+
+def hello
+  my_proc = proc { puts 'hello from my_proc'; return }
+  my_proc.call
+  puts 'hello'
+end
+
+hello
+puts 'outside hello'
+
+puts "\n"
+
+def hello
+  yield
+  puts 'hello'
+end
+
+hello { puts 'hello from a block' }
+puts 'outside hello'
+
+
+puts "\n"
+
+def hello
+  yield
+  puts 'hello'
+end
+
+# Returns from the Context of the Caller and Context of its Definition
+# hello { puts 'hello from a block'; return }
+puts 'outside hello'
+
+
+puts "\n"
+
+def hello(my_proc)
+  my_proc.call
+  puts 'hello'
+end
+
+# Returns from the Context of the Caller and Context of its Definition
+# my_proc = proc { puts 'hello from my_proc'; return }
+my_proc = proc { puts 'hello from my_proc' }
+hello(my_proc)
+puts 'outside hello'
+
+puts "\n"
+
+def hello(my_lambda)
+  my_lambda.call
+  puts 'hello'
+end
+
+# Returns from itself
+my_lambda = -> { puts 'hello from my_lambda'; return }
+# my_lambda = proc { puts 'hello from my_proc' }
+hello(my_lambda)
+puts 'outside hello'
