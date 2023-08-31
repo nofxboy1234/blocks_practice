@@ -583,3 +583,14 @@ fuzzer = ->(k) { Faker::Name.send(k) }
 person2 = FakePerson.new(fuzzer)
 p person2.first_name
 p person2.last_name
+
+puts "\n"
+# ------------------------------------------------------------------------------
+# Currying
+add = lambda { |a, b| a + b }
+p add.call(100, 200)
+increment = add.curry.call(1)
+p increment.call(100)
+
+puts "\n"
+# ------------------------------------------------------------------------------
