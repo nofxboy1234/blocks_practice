@@ -549,6 +549,7 @@ class FakePerson
   attr_reader :first_name, :last_name
 
   def initialize(name)
+    # The lambda pretends to be a hash
     @first_name = name[:first_name]
     @last_name = name[:last_name]
   end
@@ -579,7 +580,6 @@ fuzzer = ->(k) { Faker::Name.send(k) }
 # p fuzzer.call(:first_name)
 # p fuzzer.call(:last_name)
 
-# The lambda pretends to be a hash
 person2 = FakePerson.new(fuzzer)
 p person2.first_name
 p person2.last_name
